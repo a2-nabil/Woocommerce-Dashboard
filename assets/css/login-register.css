@@ -1,0 +1,376 @@
+/* Custom Login/Register Page Styles */
+.woocommerce > h2 {
+    display: none;
+}
+.registration-logo {
+    margin-bottom: 24px;
+}
+
+.registration-logo .site-logo {
+    max-width: 150px;
+    height: auto;
+}
+
+.registration-logo .site-title {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    color: #000;
+    margin: 0;
+}
+
+.registration-header-text {
+    margin-bottom: 32px;
+}
+
+.registration-header-text h2 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 130%;
+    letter-spacing: -1.6px;
+    color: #000;
+    margin: 0 0 8px;
+}
+
+.registration-header-text p {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.8px;
+    color: #4F4F4D;
+    margin: 0 0 32px;
+}
+
+.nxt-form_grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.nxt-form_grid>* {
+    margin: 0;
+}
+
+.woocommerce form .form-row label,
+form.woocommerce-form .nxt-form_grid label {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.56px;
+    color: #000;
+    margin-bottom: 8px;
+    display: block;
+}
+.woocommerce form .form-row .input-text, 
+form.woocommerce-form .nxt-form_grid input {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.64px;
+    color: #000;
+    background: #F5F6FA;
+    border: none;
+    border-radius: 100px;
+    padding: 12px 16px;
+    outline: none;
+}
+.woocommerce form .form-row .input-text::placeholder,
+form.woocommerce-form .nxt-form_grid input::placeholder {
+    color: #666666;
+}
+.woocommerce form .form-row {
+    margin: 0;
+    padding: 0;
+}
+.woocommerce-form button.woocommerce-button {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: normal;
+    color: #fff;
+    background: #1F487E;
+    padding: 12px 24px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    border-radius: 9999px;
+    float: none !important;
+    margin: 24px 0 0 !important;
+}
+.woocommerce .woocommerce-form-login .woocommerce-form-login__rememberme {
+    margin: 16px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: -0.64px;
+}
+
+/* Password Input Wrapper */
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-wrapper input {
+    padding-right: 45px !important;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 17px;
+    background: transparent !important;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    z-index: 10;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.password-toggle.hide {
+    display: flex !important;
+}
+
+.password-toggle.show {
+    display: flex;
+}
+
+.password-toggle .eye-icon {
+    display: flex;
+    transition: color 0.2s ease;
+}
+
+.password-toggle:hover .eye-icon {
+    color: #007cba;
+}
+
+/* Password Strength Indicator */
+.nxt-secured_pass {
+    display: flex;
+    gap: 8px;
+    margin: 16px 0 8px;
+}
+
+.nxt-secured_item {
+    flex: 1;
+    background: #EEEEEE;
+    height: 4px;
+    border-radius: 100px;
+    transition: background-color 0.3s ease;
+}
+
+/* Password Strength Colors */
+.nxt-secured_item.filled.weak {
+    background: #dc3545;
+    /* Red for weak */
+}
+
+.nxt-secured_item.filled.medium {
+    background: #ffc107;
+    /* Yellow/Orange for medium */
+}
+
+.nxt-secured_item.filled.strong {
+    background: #28a745;
+    /* Green for strong */
+}
+
+/* Legacy support - default to blue if no strength class */
+.nxt-secured_item.filled {
+    background: #007cba;
+}
+
+/* Password Info Text */
+.nxt-pass_info {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: -0.56px;
+    color: #666666;
+    transition: color 0.3s ease;
+}
+
+.nxt-pass_info.strong-text {
+    color: #28a745;
+    font-weight: 500;
+}
+
+.woocommerce-form-login,
+.woocommerce-form-register {
+    max-width: 574px;
+    margin: 0 auto !important;
+    width: 100%;
+    border: none !important;
+    padding: 0 !important;
+}
+
+/* WooCommerce My Account Page Styling */
+.woocommerce-account .woocommerce-MyAccount-content .u-columns {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content .u-column1,
+.woocommerce-account .woocommerce-MyAccount-content .u-column2 {
+    flex: 1;
+    max-width: 50%;
+}
+
+/* Social Login Section */
+.social-login-section {
+    margin: 24px 0;
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.64px;
+    text-align: center;
+    color: #666666;
+}
+
+
+/* Form Styling */
+
+.woocommerce form .form-row input[type="text"]:focus,
+.woocommerce form .form-row input[type="email"]:focus,
+.woocommerce form .form-row input[type="password"]:focus {
+    outline: none;
+    border-color: #007cba;
+    box-shadow: 0 0 0 2px rgba(0, 124, 186, 0.1);
+}
+
+/* Button Styling */
+.woocommerce .button {
+    background: #007cba;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.woocommerce .button:hover {
+    background: #005a87;
+    color: #fff;
+}
+
+/* Links */
+.already-have-account {
+    text-align: center;
+    margin-top: 16px;
+}
+
+.already-have-account p {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.64px;
+    color: #000;
+    margin: 0;
+}
+
+.already-have-account .login-link {
+    color: #000000;
+    text-decoration: underline;
+    font-weight: 500;
+    letter-spacing: -0.48px;
+}
+
+/* Lost Password Link */
+.woocommerce-LostPassword {
+    text-align: right;
+    margin: 0;
+    position: relative;
+}
+.woocommerce-LostPassword a{
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.64px;
+    color: #000;
+    text-decoration: none !important;
+    display: inline-block;
+    position: absolute;
+    top: -94px;
+    white-space: nowrap;
+    right: 0;
+}
+
+
+
+.woocommerce-LostPassword a:hover {
+    text-decoration: underline;
+}
+
+/* Remember Me Checkbox */
+.woocommerce-form-login__rememberme {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.woocommerce-form-login__rememberme input[type="checkbox"] {
+    width: auto;
+}
+
+/* Privacy Policy Section */
+.privacy-policy-section {
+    margin-top: 32px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 150%;
+    letter-spacing: -0.72px;
+    color: #666;
+}
+.privacy-policy-section a,
+.privacy-policy-section strong {
+    color: #000;
+}
+.woocommerce .woocommerce-form-login .woocommerce-form-row {
+    margin: 0 0 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .woocommerce-account .woocommerce-MyAccount-content .u-columns {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .woocommerce-account .woocommerce-MyAccount-content .u-column1,
+    .woocommerce-account .woocommerce-MyAccount-content .u-column2 {
+        max-width: 100%;
+    }
+
+    .registration-header-text h2 {
+        font-size: 24px;
+    }
+}
