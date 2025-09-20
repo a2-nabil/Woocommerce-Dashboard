@@ -4,6 +4,7 @@
 include_once 'includes/login-register.php';
 include_once 'includes/dashboards-functions.php';
 include_once 'includes/wishlist-shortcodes.php';
+include_once 'includes/custom-order-status.php';
 
 // Enqueue styles and scripts
 function hello_elementor_child_enqueue_assets()
@@ -11,32 +12,15 @@ function hello_elementor_child_enqueue_assets()
     wp_enqueue_style('style', get_stylesheet_uri(), array(), wp_get_theme()->get('Version'));
     // Enqueue Google Fonts globally
     wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap', array(), wp_get_theme()->get('Version'));
+    // Swiper styles
+    wp_enqueue_style(
+        'swiper-style',
+        get_stylesheet_directory_uri() . '/assets/css/swiper-bundle.min.css',
+        array(),
+        wp_get_theme()->get('Version')
+    );
 
-    // Enqueue product card styles on shop/product pages
-    if (is_shop() || is_product_category() || is_product_tag() || is_product()) {
-        wp_enqueue_style(
-            'product-card-style',
-            get_stylesheet_uri(),
-            array(),
-            wp_get_theme()->get('Version')
-        );
 
-        wp_enqueue_script(
-            'product-card-script',
-            get_stylesheet_directory_uri() . '/assets/js/product-card.js',
-            array('jquery'),
-            wp_get_theme()->get('Version'),
-            true
-        );
-
-        // Localize script for AJAX
-        wp_localize_script('product-card-script', 'product_card_ajax', array(
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('product_card_nonce'),
-            'add_to_cart_text' => __('Add to Cart', 'hello-elementor-child'),
-            'added_to_cart_text' => __('Added!', 'hello-elementor-child'),
-        ));
-    }
 
     // Login/Register pages
     if (is_page('login') || is_page('register') || is_account_page()) {
@@ -55,6 +39,36 @@ function hello_elementor_child_enqueue_assets()
             true
         );
     }
+
+    // Dashboard styles for My Account page
+    if (is_account_page()) {
+        wp_enqueue_style(
+            'dashboard-style',
+            get_stylesheet_directory_uri() . '/assets/css/dashboard.css',
+            array(),
+            wp_get_theme()->get('Version')
+        );
+
+        wp_enqueue_script(
+            'dashboard-script',
+            get_stylesheet_directory_uri() . '/assets/js/dashboard.js',
+            array('jquery', 'swiper-script'),
+            wp_get_theme()->get('Version'),
+            true
+        );
+    }
+
+
+    // Swiper scripts
+    wp_enqueue_script(
+        'swiper-script',
+        get_stylesheet_directory_uri() . '/assets/js/swiper-bundle.min.js',
+        array('jquery'),
+        wp_get_theme()->get('Version'),
+        true
+    );
+
+
 }
 add_action('wp_enqueue_scripts', 'hello_elementor_child_enqueue_assets');
 

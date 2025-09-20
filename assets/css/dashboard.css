@@ -1,0 +1,1300 @@
+/* WooCommerce My Account Layout */
+.woocommerce-account #content:has(.nxt-account-wrapper) {
+    padding: 0;
+    max-width: 1440px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.woocommerce-account .nxt-account-sidebar .woocommerce-MyAccount-navigation {
+    padding: 0;
+    float: none;
+    width: 100%;
+}
+
+.woocommerce-account .nxt-account-main .woocommerce-MyAccount-content {
+    padding: 0;
+    float: none;
+    width: 100%;
+}
+
+.nxt-account-wrapper {
+    display: flex;
+    font-family: "Poppins", sans-serif;
+    min-height: 100vh;
+}
+
+.nxt-account-sidebar {
+    flex: 0 0 272px;
+    background: #ffffff;
+    padding: 0;
+    border-right: 1px solid #D6D6D5;
+    padding: 32px 24px;
+}
+
+.nxt-account-main {
+    flex: 1;
+    min-width: 0;
+    padding: 32px;
+}
+
+/* Navigation Styles */
+.woocommerce-MyAccount-navigation {
+    padding: 0;
+    position: sticky;
+    top: 20px;
+}
+.nxt-account-nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.nxt-account-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 16px;
+    background: #fff;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    color: #666666;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-decoration: none !important;
+}
+
+.nxt-account-nav-link:hover, 
+.is-active .nxt-account-nav-link {
+    color: #ffffff;
+    background: #000000;
+}
+
+.nxt-account-nav-link:hover .nxt-nav-icon svg path, 
+.is-active .nxt-account-nav-link .nxt-nav-icon svg path {
+    fill: #ffffff;
+}
+
+.nxt-nav-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nxt-nav-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.nxt-nav-icon svg path {
+    transition: all 0.3s ease;
+}
+
+/* Override default WooCommerce navigation styles */
+.woocommerce-account .woocommerce-MyAccount-navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation li {
+    margin: 0;
+    padding: 0;
+}
+
+/* WooCommerce Dashboard Styles */
+
+.nxt-dashboard-overview {
+    padding: 0;
+}
+
+/* Stats Cards */
+.nxt-dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.nxt-stat-card {
+    background: #F5F6FA;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.3s ease;
+}
+
+.nxt-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.nxt-stat-icon {
+    width: 76px;
+    height: 76px;
+    background: #ffffff;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #1F487E;
+}
+
+.nxt-stat-icon svg  {
+    width: 44px;
+    height: 44px;
+}
+
+.nxt-stat-content h3 {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+    font-family: "Poppins", sans-serif;
+}
+
+.nxt-stat-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    line-height: 1;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Content Grid */
+.nxt-dashboard-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+.nxt-dashboard-content .nxt-section-header {
+    border-bottom: 1px solid #E5E5E5;
+    margin-bottom: 24px;
+}
+
+/* Section Headers */
+.nxt-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 24px;
+}
+.nxt-popular-products .nxt-section-header {
+    margin-bottom: 32px;
+    padding-bottom: 0;
+}
+.nxt-section-header h2 {
+    margin: 0;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 500;
+    color: #000000;
+    font-family: "Poppins", sans-serif;
+}
+
+.nxt-see-all {
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    font-family: "Poppins", sans-serif;
+}
+
+.nxt-see-all:hover {
+    color: #007cba;
+}
+
+/* Dashboard Sections */
+.nxt-dashboard-section {
+    background: #F5F6FA;
+    border-radius: 24px;
+    padding: 24px;
+}
+
+.nxt-dashboard-section.nxt-popular-products {
+    grid-column: 1 / -1;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    background: #ffffff;
+}
+
+/* Orders Table */
+.nxt-orders-table {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.nxt-orders-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 16px;
+    padding: 12px 0;
+    font-weight: 600;
+    color: #666;
+    font-size: 14px;
+    border-bottom: 1px solid #f0f0f0;
+    font-family: "Poppins", sans-serif;
+}
+
+.nxt-order-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 16px;
+    padding: 16px 0;
+    align-items: center;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.nxt-order-row:last-child {
+    border-bottom: none;
+}
+
+.nxt-order-product {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nxt-order-product img {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.nxt-product-info h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    line-height: 1.4;
+    font-family: "Poppins", sans-serif;
+}
+
+.nxt-order-price {
+    font-weight: 600;
+    color: #333;
+    font-family: "Poppins", sans-serif;
+}
+
+.nxt-status-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 20px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    text-transform: capitalize;
+    font-family: "Poppins", sans-serif;
+    background: #D586181A;
+    color: #D58618;
+    border: 1px solid #D5861833;
+}
+
+.nxt-status-completed {
+    color: #207F39;
+}
+
+.nxt-status-shipped {
+    color: #007cba;
+}
+
+.nxt-status-processing {
+    color: #D58618;
+}
+
+.nxt-status-pending {
+    color: #F9B316;
+}
+
+.nxt-status-on-hold {
+    color: #F9B316;
+}
+
+.nxt-status-cancelled {
+    color: #E40606;
+}
+
+.nxt-status-badge.nxt-status-completed {
+    background: #0ACC920D;
+    color: #067A57;
+    border: 1px solid #067A5733;
+}
+
+.nxt-status-badge.nxt-status-shipped {
+    background: #E8F4FE;
+    color: #007cba;
+    border: 1px solid #007cba;
+}
+
+.nxt-status-badge.nxt-status-processing {
+    background: #D586181A;
+    color: #D58618;
+    border: 1px solid #D5861833;
+}
+
+.nxt-status-badge.nxt-status-cancelled {
+    background: #E4060612;
+    color: #E40606;
+    border: 1px solid #E4060633;
+}
+
+
+
+/* Popular Products Carousel */
+.nxt-popular-products-carousel {
+    position: relative;
+}
+
+.nxt-carousel-controls {
+    display: flex;
+    gap: 16px;
+}
+
+.nxt-carousel-prev,
+.nxt-carousel-next {
+    width: 52px;
+    height: 52px;
+    border: none;
+    background: #F5F6FA;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+.nxt-carousel-prev svg path,
+.nxt-carousel-next svg path {
+    transition: all 0.3s ease;
+}
+.nxt-carousel-prev:hover,
+.nxt-carousel-next:hover, 
+.nxt-carousel-controls button:focus{
+    background: #1F487E;
+}
+.nxt-carousel-prev:hover svg path,
+.nxt-carousel-next:hover svg path,
+.nxt-carousel-controls button:focus svg path {
+    stroke: #ffffff;
+}
+
+.nxt-products-swiper {
+    overflow: hidden;
+}
+
+.woocommerce .nxt-product-card__favorite-btn a.remove:hover {
+    background: inherit;
+}
+
+.nxt-product-image {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1;
+}
+
+.nxt-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.nxt-product-wishlist {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+}
+
+.nxt-product-info {
+    padding: 16px;
+}
+
+.nxt-product-info h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.4;
+    font-family: "Poppins", sans-serif;
+}
+
+.nxt-product-info h3 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.nxt-product-info h3 a:hover {
+    color: #007cba;
+}
+
+.nxt-product-price {
+    font-weight: 600;
+    color: #007cba;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .nxt-dashboard-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .nxt-dashboard-stats {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nxt-dashboard-overview {
+        padding: 0;
+    }
+
+    .nxt-dashboard-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-bottom: 30px;
+    }
+
+    .nxt-stat-card {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .nxt-stat-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .nxt-stat-number {
+        font-size: 24px;
+    }
+
+    .nxt-dashboard-section {
+        padding: 16px;
+    }
+
+    .nxt-section-header h2 {
+        font-size: 18px;
+    }
+
+    .nxt-orders-header,
+    .nxt-order-row {
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 8px;
+    }
+
+    .nxt-order-product img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .nxt-product-info h4 {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nxt-dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .nxt-orders-header span:nth-child(2),
+    .nxt-order-row .nxt-order-price {
+        display: none;
+    }
+
+    .nxt-orders-header,
+    .nxt-order-row {
+        grid-template-columns: 1fr auto;
+    }
+
+    .nxt-section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+
+/* Mobile Navigation Styles */
+@media (max-width: 1024px) {
+    .nxt-account-wrapper {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .nxt-account-sidebar {
+        flex: none;
+        position: relative;
+        top: auto;
+    }
+
+
+
+
+    .nxt-nav-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .nxt-nav-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nxt-account-wrapper {
+        gap: 16px;
+    }
+
+    .nxt-account-sidebar {
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        border-bottom: 1px solid #f0f0f0;
+        background: #ffffff;
+    }
+
+
+    .nxt-nav-label {
+        display: none;
+    }
+
+    .nxt-nav-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .nxt-nav-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+
+
+    .nxt-nav-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .nxt-nav-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Orders Page Styles */
+.nxt-orders-page {
+    font-family: "Poppins", sans-serif;
+}
+
+.nxt-orders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    border-bottom: none;
+}
+
+.nxt-orders-header h2 {
+    margin: 0;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 500;
+    color: #000000;
+}
+
+.nxt-orders-header .count_number {
+    display: block;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.64px;
+    color: #666;
+    margin-top: 8px;
+}
+
+.nxt-filter-select {
+    padding: 8px 12px;
+    border: 1px solid #E1E1E1;
+    border-radius: 10px;
+    background-color: #ffffff;
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #333333;
+    min-width: 200px;
+    cursor: pointer;
+    outline: none;
+}
+
+.nxt-orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Native Details/Summary Styling */
+.nxt-order-card {
+    background: #ffffff;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.nxt-order-header {
+    display: grid;
+    grid-template-columns: auto 690px auto;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 26px 24px;
+    background: #F5F6FA;
+    border-radius: 12px;
+}
+
+.nxt-order-card[open] .nxt-order-header {
+    border-radius: 12px 12px 0 0;
+    border: 1px solid #D6D6D5;
+}
+
+.nxt-order-content-wrapper {
+    padding: 24px;
+    background: #F5F6FA;
+    border-radius: 0 0 32px 32px;
+}
+
+.nxt-wrap_order_content {
+    background: #ffffff;
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.nxt-order-card summary {
+    list-style: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.nxt-order-card summary::-webkit-details-marker {
+    display: none;
+}
+
+.nxt-order-card summary::marker {
+    display: none;
+}
+
+.nxt-order-summary-header {
+    display: block;
+    width: 100%;
+}
+
+.nxt-order-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.nxt-order-id {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.64px;
+    color: #000000;
+}
+
+.nxt-order-date {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.48px;
+    color: #4F4F4D;
+}
+
+.nxt-order-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.nxt-order-summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.nxt-summary-label {
+    font-size: 16px;
+    color: #666;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.nxt-summary-value {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+    line-height: 24px;
+}
+
+.nxt-expand-btn {
+    background: #FFFFFF;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: #ffffff;
+    pointer-events: none;
+    border-radius: 5px;
+    border: 1.25px solid #EEEEEE;
+    display: none;
+}
+
+.nxt-order-card summary:hover .nxt-expand-btn {
+    transform: scale(1.05);
+}
+
+.nxt-order-card:not([open]) .nxt-expand-btn.plus_icon {
+    display: flex;
+}
+
+.nxt-order-card[open] .nxt-expand-btn.minus_icon {
+    display: flex;
+}
+
+/* Order Progress */
+.nxt-order-progress {
+    padding: 20px;
+}
+
+.nxt-progress-indicator {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nxt-progress-line-container {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    transform: translateY(-50%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.nxt-progress-line {
+    width: 92%;
+    height: 1px;
+    position: relative;
+    margin: 0 auto;
+    background-image: repeating-linear-gradient(to right,
+            #666666,
+            #666666 6px,
+            transparent 6px,
+            transparent 10px);
+}
+
+.nxt-progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.nxt-step-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    margin-bottom: 16px;
+}
+
+.nxt-step-icon svg,
+.nxt-step-icon svg path {
+    transition: all 0.3s ease;
+}
+
+.nxt-progress-step.active .nxt-step-icon svg path {
+    stroke: #000000;
+}
+
+.nxt-progress-step:not(.active) .nxt-step-icon svg path {
+    stroke: #666666;
+}
+
+.nxt-step-circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 1.5px solid #666666;
+    box-shadow: 0px 2px 2px 0px #0000001A;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    transition: all 0.3s ease;
+}
+
+.nxt-step-circle.active {
+    background: #000000;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 2px 2px 0px #0000001A;
+}
+
+.nxt-step-label {
+    color: #666;
+    font-weight: 400;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 16px;
+    line-height: 24px;
+    margin-top: 16px;
+}
+
+.nxt-progress-step.active .nxt-step-label {
+    color: #000;
+    font-weight: 500;
+    letter-spacing: -0.64px;
+}
+
+/* Order Details */
+.nxt-order-details {
+    padding: 0;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.nxt-order-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.nxt-order-products h3,
+.nxt-summary-section h3,
+.nxt-shipping-section h3,
+.nxt-payment-section h3 {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: -1.2px;
+    color: #000000;
+    margin-bottom: 32px;
+}
+
+.nxt-products-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.nxt-product-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.nxt-product-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.nxt-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nxt-product-details {
+    flex: 1;
+}
+
+.nxt-product-details h4 {
+    margin: 0 0 6px;
+    color: #000000;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-transform: capitalize;
+}
+
+.nxt-product-price {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    color: #000000;
+    margin-bottom: 8px;
+}
+
+.nxt-product-meta {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 2px;
+    column-gap: 16px;
+}
+
+.nxt-meta-item {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.64px;
+    color: #666;
+}
+
+.nxt-meta-value {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.64px;
+    color: #000000;
+}
+
+/* Order Sidebar */
+
+.nxt-summary-section,
+.nxt-shipping-section,
+.nxt-payment-section,
+.nxt-order-products {
+    border: 1px solid #D6D6D5;
+    padding: 20px 24px;
+}
+
+.nxt-shipping-section,
+.nxt-payment-section {
+    border-top: 0;
+}
+
+@media (min-width: 768px) {
+
+    .nxt-order-products,
+    .nxt-shipping-section {
+        border-right: 0;
+    }
+}
+
+.nxt-summary-section,
+.nxt-order-products {
+    padding: 32px 20px;
+}
+
+.nxt-summary-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.nxt-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.64px;
+    font-weight: 400;
+    color: #666666;
+}
+
+.nxt-summary-row span:last-child {
+    font-weight: 500;
+}
+
+.nxt-summary-row.total {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+    letter-spacing: -1px;
+    color: #000000;
+    padding-top: 4px;
+}
+
+.nxt-summary-row .discount-percentage {
+    color: #FF0000;
+    font-weight: 500;
+}
+
+.nxt-address-section {
+    background: #F5F6FA;
+    padding: 16px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+    min-height: 284px;
+}
+
+.nxt-address-section h4 {
+    margin: 0 0 16px;
+    color: #666;
+    text-transform: uppercase;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.nxt-address {
+    color: #666;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.nxt-address span {
+    font-weight: 500;
+    display: block;
+}
+
+.nxt-address .nxt-customer-name,
+.nxt-address:first-line {
+    color: #000000;
+    font-weight: 500;
+    padding-bottom: 8px;
+}
+
+.nxt-address .nxt-customer-country {
+    font-weight: 500;
+    padding-top: 4px;
+}
+
+.nxt-address .nxt-customer-phone,
+.nxt-address .nxt-customer-email {
+    padding-top: 8px;
+}
+
+.nxt-extra-info {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.nxt-payments-info_wrapper {
+    justify-content: space-between;
+}
+
+/* Order Actions */
+.nxt-order-actions__wrapper {
+    padding: 24px;
+    justify-content: space-between;
+}
+
+.nxt-order-actions-section,
+.nxt-order-actions__wrapper,
+.nxt-order-actions__info {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.nxt-order-actions__info {
+    color: #666;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    max-width: 544px;
+}
+
+.nxt-order-actions__info svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.nxt-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 9999px;
+    text-decoration: none !important;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+}
+
+.nxt-btn-primary {
+    background: #1F487E;
+    color: #ffffff;
+}
+
+.nxt-btn-primary:hover {
+    background: #005a87;
+    color: #ffffff;
+}
+
+.nxt-btn-cancel {
+    background: #E40606;
+    color: #ffffff;
+}
+
+.nxt-btn-cancel:hover {
+    background: #c82333;
+    color: #ffffff;
+}
+
+/* No Orders State */
+.nxt-no-orders {
+    text-align: center;
+    max-width: 551px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.nxt-no-orders img {
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.nxt-no-orders h2 {
+    font-weight: 500;
+    font-size: 32px;
+    color: #000000;
+    margin: 32px 0 16px;
+}
+
+.nxt-no-orders p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 24px;
+}
+
+/* No Matches State */
+.nxt-no-matches {
+    text-align: center;
+    max-width: 400px;
+    margin: 40px auto;
+    width: 100%;
+}
+
+.nxt-no-matches-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.nxt-no-matches-content svg {
+    opacity: 0.6;
+}
+
+.nxt-no-matches-content h3 {
+    font-weight: 500;
+    font-size: 24px;
+    color: #000000;
+    margin: 0;
+}
+
+.nxt-no-matches-content p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Payment Method Card Brand Logos */
+.nxt-payment-method-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-brand-display {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Card logo sizes for images */
+.card-logo-small {
+    width: 24px;
+    height: auto;
+    object-fit: contain;
+    border-radius: 2px;
+}
+
+.card-logo-medium {
+    width: 32px;
+    height: 20px;
+    object-fit: contain;
+    border-radius: 2px;
+}
+
+.card-logo-large {
+    width: 42px;
+    height: auto;
+    object-fit: contain;
+    border-radius: 2px;
+}
+
+/* Ensure logos maintain aspect ratio */
+.card-brand-display img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    max-height: 42px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .nxt-payment-method-display {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .card-brand-display {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    .nxt-order-content {
+        grid-template-columns: 1fr;
+    }
+}
