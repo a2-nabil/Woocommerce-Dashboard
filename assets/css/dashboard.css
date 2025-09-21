@@ -44,11 +44,13 @@
     position: sticky;
     top: 20px;
 }
+
 .nxt-account-nav-list {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
+
 .nxt-account-nav-link {
     display: flex;
     align-items: center;
@@ -64,13 +66,13 @@
     text-decoration: none !important;
 }
 
-.nxt-account-nav-link:hover, 
+.nxt-account-nav-link:hover,
 .is-active .nxt-account-nav-link {
     color: #ffffff;
     background: #000000;
 }
 
-.nxt-account-nav-link:hover .nxt-nav-icon svg path, 
+.nxt-account-nav-link:hover .nxt-nav-icon svg path,
 .is-active .nxt-account-nav-link .nxt-nav-icon svg path {
     fill: #ffffff;
 }
@@ -144,7 +146,7 @@
     color: #1F487E;
 }
 
-.nxt-stat-icon svg  {
+.nxt-stat-icon svg {
     width: 44px;
     height: 44px;
 }
@@ -172,6 +174,7 @@
     gap: 40px;
     margin-bottom: 40px;
 }
+
 .nxt-dashboard-content .nxt-section-header {
     border-bottom: 1px solid #E5E5E5;
     margin-bottom: 24px;
@@ -184,10 +187,12 @@
     align-items: center;
     padding-bottom: 24px;
 }
+
 .nxt-popular-products .nxt-section-header {
     margin-bottom: 32px;
     padding-bottom: 0;
 }
+
 .nxt-section-header h2 {
     margin: 0;
     font-size: 24px;
@@ -375,15 +380,18 @@
     transition: all 0.3s ease;
     padding: 0;
 }
+
 .nxt-carousel-prev svg path,
 .nxt-carousel-next svg path {
     transition: all 0.3s ease;
 }
+
 .nxt-carousel-prev:hover,
-.nxt-carousel-next:hover, 
-.nxt-carousel-controls button:focus{
+.nxt-carousel-next:hover,
+.nxt-carousel-controls button:focus {
     background: #1F487E;
 }
+
 .nxt-carousel-prev:hover svg path,
 .nxt-carousel-next:hover svg path,
 .nxt-carousel-controls button:focus svg path {
@@ -1141,7 +1149,8 @@
     flex-shrink: 0;
 }
 
-.nxt-btn {
+.nxt-btn,
+.woocommerce button.button[type="submit"] {
     display: inline-block;
     padding: 12px 24px;
     border-radius: 9999px;
@@ -1156,12 +1165,14 @@
     font-family: "Poppins", sans-serif;
 }
 
-.nxt-btn-primary {
+.nxt-btn-primary,
+.woocommerce button.button[type="submit"] {
     background: #1F487E;
     color: #ffffff;
 }
 
-.nxt-btn-primary:hover {
+.nxt-btn-primary:hover,
+.woocommerce button.button[type="submit"]:hover {
     background: #005a87;
     color: #ffffff;
 }
@@ -1296,5 +1307,715 @@
 
     .nxt-order-content {
         grid-template-columns: 1fr;
+    }
+}
+
+/* ========================================
+   ADDRESS PAGE STYLES
+   ======================================== */
+
+/* Address Page Layout */
+.nxt-addresses-page {
+    font-family: "Poppins", sans-serif;
+    padding: 0;
+}
+
+/* Page Header */
+.nxt-addresses-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.nxt-page-title,
+.woocommerce-MyAccount-content form>h2 {
+    margin: 0;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 500;
+    color: #000000;
+    font-family: "Poppins", sans-serif;
+    letter-spacing: -1.2px;
+}
+
+.woocommerce-MyAccount-content form>h2 {
+    margin-bottom: 32px;
+}
+
+.nxt-btn.nxt-add-address-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #1F487E;
+    color: #ffffff;
+    border-radius: 9999px !important;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.nxt-add-address-btn:hover {
+    background: #005a87;
+    color: #ffffff;
+}
+
+.nxt-add-address-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Addresses List */
+.nxt-addresses-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Address Card */
+.nxt-address-card {
+    background: #F5F6FA;
+    border-radius: 16px;
+    padding: 16px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.nxt-address-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border-color: #D6D6D5;
+}
+
+/* Address Header */
+.nxt-address-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.nxt-address-type {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nxt-address-type svg {
+    width: 20px;
+    height: 20px;
+}
+
+.nxt-address-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.nxt-address-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.nxt-address-actions .nxt-address-action {
+    width: 34px;
+    height: 34px;
+    background: #FFFFFF;
+    color: #141B34;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: 1px solid #EEEEEE !important;
+    padding: 0 !important;
+}
+
+.nxt-address-actions .nxt-address-action:hover {
+    background: #ffffff;
+    color: #141B34;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nxt-address-action svg {
+    width: 16px;
+    height: 16px;
+}
+
+.nxt-default-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    background: #1F487E;
+    color: #ffffff;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Address Content */
+.nxt-address-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.nxt-address-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.nxt-field-label {
+    font-size: 14px;
+    color: #666666;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.nxt-field-value {
+    font-size: 16px;
+    color: #000000;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.64px;
+}
+
+.nxt-field-label-recipient {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 130%;
+    letter-spacing: -1px;
+}
+
+/* Empty Address State */
+.nxt-address-empty {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.nxt-address-empty p {
+    color: #666666;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0;
+}
+
+.nxt-address-empty a {
+    color: #1F487E;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.nxt-address-empty a:hover {
+    text-decoration: underline;
+}
+
+.woocommerce-address-fields__field-wrapper {
+    display: grid;
+    gap: 16px;
+}
+
+
+/* ========================================
+   RESPONSIVE STYLES
+   ======================================== */
+
+@media (max-width: 768px) {
+    .nxt-addresses-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .nxt-addresses-list {
+        gap: 16px;
+    }
+
+    .nxt-address-card {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nxt-addresses-header {
+        margin-bottom: 24px;
+    }
+
+    .nxt-page-title {
+        font-size: 20px;
+    }
+
+    .nxt-add-address-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .nxt-address-card {
+        padding: 16px;
+    }
+}
+
+
+/* woocommecre form styling  */
+.woocommerce-address-fields__field-wrapper {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+    justify-content: space-between;
+}
+
+.woocommerce-address-fields__field-wrapper>* {
+    width: 100%;
+}
+
+.woocommerce-address-fields__field-wrapper #shipping_first_name_field,
+.woocommerce-address-fields__field-wrapper #shipping_last_name_field,
+.woocommerce-address-fields__field-wrapper #billing_first_name_field,
+.woocommerce-address-fields__field-wrapper #billing_last_name_field {
+    width: calc(50% - 8px) !important;
+    float: none !important;
+}
+
+/* ========================================
+   EDIT ACCOUNT PAGE STYLES
+   ======================================== */
+
+/* Edit Account Page Layout */
+.nxt-edit-account-page {
+    font-family: "Poppins", sans-serif;
+    padding: 0;
+}
+
+.nxt-edit-account-content {
+    display: grid;
+    grid-template-columns: 1fr auto;
+}
+
+/* Section Titles */
+.nxt-section-title {
+    margin: 0 0 24px 0;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 500;
+    color: #000000;
+    font-family: "Poppins", sans-serif;
+    letter-spacing: -1.2px;
+}
+
+/* Profile Section */
+.nxt-profile-section {
+    padding-right: 24px;
+    border-right: 1px solid #D6D6D5;
+}
+
+/* Profile Picture Section */
+.nxt-profile-picture-section {
+    margin-bottom: 32px;
+}
+
+.nxt-profile-picture {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.nxt-profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #E5E5E5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nxt-avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nxt-profile-picture-info {
+    flex: 1;
+}
+
+.nxt-upload-text {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+    line-height: 24px;
+}
+
+.nxt-upload-description {
+    margin: 0;
+    font-size: 14px;
+    color: #666666;
+    line-height: 20px;
+}
+
+.nxt-upload-btn {
+    background: #FFFFFF;
+    color: #666666;
+    border: 1px solid #E5E5E5;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Poppins", sans-serif;
+}
+
+.nxt-upload-btn:hover {
+    background: #F5F6FA;
+    color: #000000;
+}
+
+/* Form Fields */
+.nxt-form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.nxt-form-fields>* {
+    width: 100% !important;
+    float: none !important;
+}
+
+/* WooCommerce Form Styling */
+.woocommerce-EditAccountForm .woocommerce-form-row {
+    margin-bottom: 0;
+}
+
+.woocommerce-EditAccountForm label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+    line-height: 24px;
+    font-family: "Poppins", sans-serif;
+}
+
+.woocommerce-EditAccountForm .required {
+    color: #E40606;
+}
+
+.woocommerce-EditAccountForm input[type="text"],
+.woocommerce-EditAccountForm input[type="tel"],
+.woocommerce-EditAccountForm input[type="number"],
+.woocommerce-EditAccountForm input[type="password"],
+.woocommerce-EditAccountForm select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #E5E5E5;
+    border-radius: 8px;
+    background: #FFFFFF;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+    line-height: 24px;
+    font-family: "Poppins", sans-serif;
+    transition: all 0.3s ease;
+}
+
+.woocommerce-EditAccountForm input[type="text"]:focus,
+.woocommerce-EditAccountForm input[type="tel"]:focus,
+.woocommerce-EditAccountForm input[type="number"]:focus,
+.woocommerce-EditAccountForm input[type="password"]:focus,
+.woocommerce-EditAccountForm select:focus {
+    outline: none;
+    border-color: #1F487E;
+    box-shadow: 0 0 0 3px rgba(31, 72, 126, 0.1);
+}
+
+.woocommerce-EditAccountForm input::placeholder {
+    color: #999999;
+}
+
+/* Phone Input Wrapper */
+.nxt-phone-input-wrapper {
+    display: flex;
+    gap: 8px;
+}
+
+.nxt-phone-input-wrapper select {
+    flex: 0 0 80px;
+    min-width: 80px;
+}
+
+.nxt-phone-input-wrapper input {
+    flex: 1;
+}
+
+/* Birth Date Fields */
+.nxt-birth-date-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nxt-date-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+}
+
+/* Save Button */
+.nxt-save-info-btn {
+    margin-top: 32px;
+    margin-bottom: 0;
+}
+
+.nxt-save-info-btn .woocommerce-Button {
+    width: 100%;
+    background: #1F487E;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Poppins", sans-serif;
+}
+
+.nxt-save-info-btn .woocommerce-Button:hover {
+    background: #005a87;
+    color: #FFFFFF;
+}
+
+/* Login Section */
+.nxt-login-section {
+    padding-left: 24px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nxt-login-info {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.nxt-email-display {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+}
+
+.nxt-email-display label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+    line-height: 24px;
+    font-family: "Poppins", sans-serif;
+}
+
+.nxt-email-value {
+    background: #FFFFFF;
+    border: 1px solid #E5E5E5;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+    line-height: 24px;
+    font-family: "Poppins", sans-serif;
+}
+
+.nxt-change-password-btn {
+    background: #FFFFFF;
+    color: #666666;
+    border: 1px solid #E5E5E5;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Poppins", sans-serif;
+    width: 100%;
+}
+
+.nxt-change-password-btn:hover {
+    background: #F5F6FA;
+    color: #000000;
+}
+
+/* Password Change Form */
+.woocommerce-ChangePasswordForm {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.nxt-change-password-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    margin-bottom: 0;
+}
+
+.nxt-change-password-actions .woocommerce-Button {
+    flex: 1;
+    background: #1F487E;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Poppins", sans-serif;
+}
+
+.nxt-change-password-actions .woocommerce-Button:hover {
+    background: #005a87;
+    color: #FFFFFF;
+}
+
+
+/* Logout Section */
+.nxt-logout-section {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+}
+
+.nxt-logout-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #E40606;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    font-family: "Poppins", sans-serif;
+    transition: all 0.3s ease;
+}
+
+.nxt-logout-link:hover {
+    color: #c82333;
+    text-decoration: none;
+}
+
+.nxt-logout-link svg {
+    width: 16px;
+    height: 16px;
+}
+
+button.nxt-profileBtn {
+    border: 1px solid #666666;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #666666;
+    border-radius: 9999px;
+    padding: 12px 24px;
+}
+
+button.nxt-profileBtn:hover {
+    background: #1F487E;
+    color: #fff;
+    border-color: #1F487E;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .nxt-edit-account-content {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .nxt-logout-section {
+        grid-column: 1;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .nxt-profile-section,
+    .nxt-login-section {
+        padding: 20px;
+    }
+
+    .nxt-name-fields {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .nxt-date-inputs {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .nxt-phone-input-wrapper {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .nxt-phone-input-wrapper select {
+        flex: none;
+        width: 100%;
+    }
+
+    .nxt-change-password-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .nxt-profile-section,
+    .nxt-login-section {
+        padding: 16px;
+    }
+
+    .nxt-section-title {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .nxt-profile-picture {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .nxt-upload-btn {
+        width: 100%;
     }
 }

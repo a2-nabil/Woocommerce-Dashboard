@@ -1,7 +1,8 @@
 /* Custom Login/Register Page Styles */
-.woocommerce > h2 {
+.woocommerce>h2 {
     display: none;
 }
+
 .registration-logo {
     margin-bottom: 24px;
 }
@@ -53,7 +54,7 @@
     margin: 0;
 }
 
-.woocommerce form .form-row label,
+.page-content form .form-row label,
 form.woocommerce-form .nxt-form_grid label {
     font-family: "Poppins", sans-serif;
     font-weight: 500;
@@ -64,28 +65,51 @@ form.woocommerce-form .nxt-form_grid label {
     margin-bottom: 8px;
     display: block;
 }
-.woocommerce form .form-row .input-text, 
-form.woocommerce-form .nxt-form_grid input {
+
+.page-content form .form-row .input-text,
+form.woocommerce-form .nxt-form_grid input,
+.nxt-address-form .nxt-form-input,
+.page-content form .form-row select {
+    height: 48px;
+    display: flex;
+    align-items: center;
+}
+
+.page-content form .form-row .input-text,
+form.woocommerce-form .nxt-form_grid input,
+.nxt-address-form .nxt-form-input,
+.page-content form .form-row select,
+.select2-container .select2-dropdown,
+.select2-container .select2-selection {
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
     letter-spacing: -0.64px;
     color: #000;
-    background: #F5F6FA;
+    background-color: #F5F6FA;
     border: none;
     border-radius: 100px;
     padding: 12px 16px;
     outline: none;
 }
-.woocommerce form .form-row .input-text::placeholder,
-form.woocommerce-form .nxt-form_grid input::placeholder {
+
+.select2-container .select2-dropdown,
+.select2-container .select2-selection {
+    padding: 0 12px !important;
+}
+
+.page-content form .form-row .input-text::placeholder,
+form.woocommerce-form .nxt-form_grid input::placeholder,
+.nxt-address-form .nxt-form-input::placeholder {
     color: #666666;
 }
-.woocommerce form .form-row {
+
+.page-content form .form-row {
     margin: 0;
     padding: 0;
 }
+
 .woocommerce-form button.woocommerce-button {
     font-family: "Poppins", sans-serif;
     font-weight: 600;
@@ -104,7 +128,8 @@ form.woocommerce-form .nxt-form_grid input::placeholder {
     float: none !important;
     margin: 24px 0 0 !important;
 }
-.woocommerce .woocommerce-form-login .woocommerce-form-login__rememberme {
+
+.page-content .woocommerce-form-login .woocommerce-form-login__rememberme {
     margin: 16px 0 0;
     display: flex;
     align-items: center;
@@ -250,16 +275,16 @@ form.woocommerce-form .nxt-form_grid input::placeholder {
 
 /* Form Styling */
 
-.woocommerce form .form-row input[type="text"]:focus,
-.woocommerce form .form-row input[type="email"]:focus,
-.woocommerce form .form-row input[type="password"]:focus {
+.page-content form .form-row input[type="text"]:focus,
+.page-content form .form-row input[type="email"]:focus,
+.page-content form .form-row input[type="password"]:focus {
     outline: none;
     border-color: #007cba;
     box-shadow: 0 0 0 2px rgba(0, 124, 186, 0.1);
 }
 
 /* Button Styling */
-.woocommerce .button {
+.page-content .button {
     background: #007cba;
     color: #fff;
     border: none;
@@ -273,7 +298,7 @@ form.woocommerce-form .nxt-form_grid input::placeholder {
     width: 100%;
 }
 
-.woocommerce .button:hover {
+.page-content .button:hover {
     background: #005a87;
     color: #fff;
 }
@@ -301,13 +326,42 @@ form.woocommerce-form .nxt-form_grid input::placeholder {
     letter-spacing: -0.48px;
 }
 
+.nxt-social-login-btn_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.nxt-social-login-btn_wrapper a {
+    display: flex;
+    gap: 8px;
+    border: 1px solid #666666;
+    justify-content: center;
+    align-items: center;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #000000;
+    border-radius: 9999px;
+    height: 48px;
+}
+
+.nxt-social-login-btn_wrapper a svg {
+    width: 20px;
+    height: 20px;
+}
+
 /* Lost Password Link */
 .woocommerce-LostPassword {
     text-align: right;
     margin: 0;
     position: relative;
 }
-.woocommerce-LostPassword a{
+
+.woocommerce-LostPassword a {
     font-family: "Poppins", sans-serif;
     font-weight: 500;
     font-size: 16px;
@@ -350,11 +404,13 @@ form.woocommerce-form .nxt-form_grid input::placeholder {
     letter-spacing: -0.72px;
     color: #666;
 }
+
 .privacy-policy-section a,
 .privacy-policy-section strong {
     color: #000;
 }
-.woocommerce .woocommerce-form-login .woocommerce-form-row {
+
+.page-content .woocommerce-form-login .woocommerce-form-row {
     margin: 0 0 16px;
 }
 

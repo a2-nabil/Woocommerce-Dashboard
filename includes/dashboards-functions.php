@@ -77,13 +77,27 @@ add_action('after_switch_theme', function () {
 /**
  * Get total orders count for current user
  */
+// function nxt_get_user_total_orders() {
+//     if (!is_user_logged_in()) {
+//         return 0;
+//     }
+
+//     $user_id = get_current_user_id();
+//     return wc_get_customer_order_count($user_id);
+// }
 function nxt_get_user_total_orders() {
     if (!is_user_logged_in()) {
         return 0;
     }
 
     $user_id = get_current_user_id();
-    return wc_get_customer_order_count($user_id);
+    $orders = wc_get_orders(array(
+        'customer_id' => $user_id,
+        'limit' => -1,
+        'status' => array('wc-pending', 'wc-processing', 'wc-on-hold', 'wc-completed', 'wc-cancelled', 'wc-refunded', 'wc-failed', 'wc-pending-payment', 'wc-shipped')
+    ));
+
+    return count($orders);
 }
 
 /**
@@ -135,63 +149,66 @@ function nxt_get_user_wishlist_count() {
 /**
  * Display recent orders table
  */
-function nxt_display_recent_orders($limit = 3) {
-    if (!is_user_logged_in()) {
+function nxt_display_recent_orders( $limit = 3 ) {
+    if ( ! is_user_logged_in() ) {
         return;
     }
-    
-    $user_id = get_current_user_id();
-    $orders = wc_get_orders(array(
-        'customer_id' => $user_id,
-        'limit' => $limit,
-        'orderby' => 'date',
-        'order' => 'DESC'
-    ));
-    
-    if (empty($orders)) {
-        echo '<p>' . esc_html__('No orders found.', 'hello-elementor-child') . '</p>';
+
+    $args = apply_filters(
+        'woocommerce_my_account_my_orders_query',
+        array(
+            'customer' => get_current_user_id(),
+            'limit'    => $limit,
+            'orderby'  => 'date',
+            'order'    => 'DESC',
+        )
+    );
+
+    $orders = wc_get_orders( $args );
+
+    if ( empty( $orders ) ) {
+        echo '<p>' . esc_html__( 'No orders found.', 'hello-elementor-child' ) . '</p>';
         return;
     }
-    
+
     echo '<div class="nxt-orders-table">';
     echo '<div class="nxt-orders-header">';
-    echo '<span>' . esc_html__('Product', 'hello-elementor-child') . '</span>';
-    echo '<span>' . esc_html__('Price', 'hello-elementor-child') . '</span>';
-    echo '<span>' . esc_html__('Status', 'hello-elementor-child') . '</span>';
+    echo '<span>' . esc_html__( 'Product', 'hello-elementor-child' ) . '</span>';
+    echo '<span>' . esc_html__( 'Price', 'hello-elementor-child' ) . '</span>';
+    echo '<span>' . esc_html__( 'Status', 'hello-elementor-child' ) . '</span>';
     echo '</div>';
-    
-    foreach ($orders as $order) {
+
+    foreach ( $orders as $order ) {
         $items = $order->get_items();
-        $first_item = array_shift($items);
-        $product = $first_item ? $first_item->get_product() : null;
-        
+        $first_item = array_shift( $items );
+        $product    = $first_item ? $first_item->get_product() : null;
+
         echo '<div class="nxt-order-row">';
+
         echo '<div class="nxt-order-product">';
-        
-        if ($product && $product->get_image_id()) {
-            echo '<img src="' . esc_url(wp_get_attachment_image_url($product->get_image_id(), 'thumbnail')) . '" alt="' . esc_attr($product->get_name()) . '">';
+        if ( $product && $product->get_image_id() ) {
+            echo '<img src="' . esc_url( wp_get_attachment_image_url( $product->get_image_id(), 'thumbnail' ) ) . '" alt="' . esc_attr( $product->get_name() ) . '">';
         }
-        
         echo '<div class="nxt-product-info">';
-        echo '<h4>' . ($product ? esc_html($product->get_name()) : esc_html__('Product', 'hello-elementor-child')) . '</h4>';
+        echo '<h4>' . ( $product ? esc_html( $product->get_name() ) : esc_html__( 'Product', 'hello-elementor-child' ) ) . '</h4>';
         echo '</div>';
         echo '</div>';
-        
+
         echo '<div class="nxt-order-price">';
-        echo wc_price($order->get_total());
+        echo wp_kses_post( $order->get_formatted_order_total() );
         echo '</div>';
-        
+
         echo '<div class="nxt-order-status">';
-        $status = $order->get_status();
+        $status       = $order->get_status();
         $status_class = 'nxt-status-' . $status;
-        echo '<span class="nxt-status-badge ' . esc_attr($status_class) . '">';
-        echo esc_html(ucfirst($status));
+        echo '<span class="nxt-status-badge ' . esc_attr( $status_class ) . '">';
+        echo esc_html( wc_get_order_status_name( $status ) );
         echo '</span>';
         echo '</div>';
-        
+
         echo '</div>';
     }
-    
+
     echo '</div>';
 }
 
@@ -372,5 +389,737 @@ function nxt_display_order_progress($order) {
         $step_num++;
     }
     echo '</div>';
+}
+
+// ========================================
+// ADDRESS MANAGEMENT FUNCTIONS
+// ========================================
+
+/**
+ * Enqueue modal and address management scripts
+ */
+add_action('wp_enqueue_scripts', 'nxt_enqueue_modal_scripts');
+function nxt_enqueue_modal_scripts() {
+    if (is_account_page()) {
+        wp_enqueue_script('jquery');
+        
+        // Enqueue modal script first (dependency for address management)
+        wp_enqueue_script(
+            'nxt-modal',
+            get_stylesheet_directory_uri() . '/assets/js/modal.js',
+            array('jquery'),
+            '1.0.0',
+            true
+        );
+        
+        // Enqueue address management script
+        wp_enqueue_script(
+            'nxt-address-management',
+            get_stylesheet_directory_uri() . '/assets/js/address-management.js',
+            array('jquery', 'nxt-modal'),
+            '1.0.0',
+            true
+        );
+        
+        // Localize script with AJAX data
+        wp_localize_script('nxt-address-management', 'wc_address_params', array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'delete_nonce' => wp_create_nonce('nxt_delete_address'),
+            'delete_default_nonce' => wp_create_nonce('nxt_delete_default_address'),
+            'save_nonce' => wp_create_nonce('nxt_save_custom_address'),
+            'set_default_nonce' => wp_create_nonce('nxt_set_default_address'),
+            'get_address_nonce' => wp_create_nonce('nxt_get_address_data'),
+            'countries' => WC()->countries->get_countries(),
+            'states' => WC()->countries->get_states(),
+        ));
+    }
+}
+
+/**
+ * Handle AJAX get address data request
+ */
+add_action('wp_ajax_nxt_get_address_data', 'nxt_handle_get_address_data');
+add_action('wp_ajax_nopriv_nxt_get_address_data', 'nxt_handle_get_address_data');
+function nxt_handle_get_address_data() {
+    // Verify nonce
+    if (!wp_verify_nonce($_POST['nonce'], 'nxt_get_address_data')) {
+        wp_die('Security check failed');
+    }
+    
+    // Check if user is logged in
+    if (!is_user_logged_in()) {
+        wp_send_json_error('User not logged in');
+    }
+    
+    $user_id = get_current_user_id();
+    $address_id = sanitize_text_field($_POST['address_id']);
+    
+    // Get custom address data
+    $address_data = get_user_meta($user_id, 'nxt_custom_address_' . $address_id, true);
+    if (!$address_data || !is_array($address_data)) {
+        wp_send_json_error('Address not found');
+    }
+    
+    wp_send_json_success($address_data);
+}
+
+/**
+ * Handle AJAX delete address request
+ */
+add_action('wp_ajax_nxt_delete_address', 'nxt_handle_delete_address');
+add_action('wp_ajax_nopriv_nxt_delete_address', 'nxt_handle_delete_address');
+function nxt_handle_delete_address() {
+    // Verify nonce
+    if (!wp_verify_nonce($_POST['nonce'], 'nxt_delete_address')) {
+        wp_die('Security check failed');
+    }
+    
+    // Check if user is logged in
+    if (!is_user_logged_in()) {
+        wp_send_json_error('User not logged in');
+    }
+    
+    $user_id = get_current_user_id();
+    $address_id = sanitize_text_field($_POST['address_id']);
+    
+    // Delete custom address
+    delete_user_meta($user_id, 'nxt_custom_address_' . $address_id);
+    
+    // Remove from addresses list
+    $addresses = get_user_meta($user_id, 'nxt_custom_addresses', true);
+    if (is_array($addresses)) {
+        $addresses = array_diff($addresses, array($address_id));
+        update_user_meta($user_id, 'nxt_custom_addresses', $addresses);
+    }
+    
+    wp_send_json_success('Address deleted successfully');
+}
+
+/**
+ * Handle AJAX save custom address request
+ */
+add_action('wp_ajax_nxt_save_custom_address', 'nxt_handle_save_custom_address');
+add_action('wp_ajax_nopriv_nxt_save_custom_address', 'nxt_handle_save_custom_address');
+function nxt_handle_save_custom_address() {
+    // Verify nonce
+    if (!wp_verify_nonce($_POST['nonce'], 'nxt_save_custom_address')) {
+        wp_die('Security check failed');
+    }
+    
+    // Check if user is logged in
+    if (!is_user_logged_in()) {
+        wp_send_json_error('User not logged in');
+    }
+    
+    $user_id = get_current_user_id();
+    $address_id = isset($_POST['address_id']) ? sanitize_text_field($_POST['address_id']) : null;
+    
+    // Get next address ID if creating new
+    if (!$address_id) {
+        $existing_addresses = get_user_meta($user_id, 'nxt_custom_addresses', true);
+        $address_count = is_array($existing_addresses) ? count($existing_addresses) : 0;
+        $address_id = $address_count + 1;
+    }
+    
+    // Prepare address data
+    $address_data = array(
+        'first_name' => sanitize_text_field($_POST['first_name']),
+        'last_name' => sanitize_text_field($_POST['last_name']),
+        'company' => sanitize_text_field($_POST['company']),
+        'address_1' => sanitize_text_field($_POST['address_1']),
+        'address_2' => sanitize_text_field($_POST['address_2']),
+        'city' => sanitize_text_field($_POST['city']),
+        'state' => sanitize_text_field($_POST['state']),
+        'postcode' => sanitize_text_field($_POST['postcode']),
+        'country' => sanitize_text_field($_POST['country']),
+        'phone' => sanitize_text_field($_POST['phone']),
+        'building_type' => sanitize_text_field($_POST['building_type']),
+        'created_at' => current_time('mysql')
+    );
+    
+    // Save address
+    $meta_key = 'nxt_custom_address_' . $address_id;
+    update_user_meta($user_id, $meta_key, $address_data);
+    
+    // Update addresses list if new address
+    if (!isset($_POST['address_id'])) {
+        $addresses = get_user_meta($user_id, 'nxt_custom_addresses', true);
+        if (!is_array($addresses)) {
+            $addresses = array();
+        }
+        $addresses[] = $address_id;
+        update_user_meta($user_id, 'nxt_custom_addresses', $addresses);
+    }
+    
+    wp_send_json_success(array(
+        'message' => 'Address saved successfully',
+        'address_id' => $address_id
+    ));
+}
+
+/**
+ * Get all addresses for a user (default + custom)
+ */
+function nxt_get_all_custom_addresses($user_id) {
+    $addresses = array();
+    
+    // Get default billing address
+    $billing_data = array(
+        'first_name' => get_user_meta($user_id, 'billing_first_name', true),
+        'last_name' => get_user_meta($user_id, 'billing_last_name', true),
+        'company' => get_user_meta($user_id, 'billing_company', true),
+        'address_1' => get_user_meta($user_id, 'billing_address_1', true),
+        'address_2' => get_user_meta($user_id, 'billing_address_2', true),
+        'city' => get_user_meta($user_id, 'billing_city', true),
+        'state' => get_user_meta($user_id, 'billing_state', true),
+        'postcode' => get_user_meta($user_id, 'billing_postcode', true),
+        'country' => get_user_meta($user_id, 'billing_country', true),
+        'phone' => get_user_meta($user_id, 'billing_phone', true),
+        'building_type' => get_user_meta($user_id, 'billing_building_type', true),
+        'is_default' => true,
+        'default_type' => 'billing',
+        'address_title' => 'Default Billing Address'
+    );
+    
+    // Check if billing address has any content
+    $has_billing_content = !empty($billing_data['address_1']) || !empty($billing_data['city']) || !empty($billing_data['postcode']);
+    if ($has_billing_content) {
+        $formatted_billing = nxt_format_default_address($billing_data);
+        $addresses['billing'] = array_merge($billing_data, array(
+            'formatted' => $formatted_billing
+        ));
+    }
+    
+    // Get default shipping address (if different from billing)
+    if (!wc_ship_to_billing_address_only() && wc_shipping_enabled()) {
+        $shipping_data = array(
+            'first_name' => get_user_meta($user_id, 'shipping_first_name', true),
+            'last_name' => get_user_meta($user_id, 'shipping_last_name', true),
+            'company' => get_user_meta($user_id, 'shipping_company', true),
+            'address_1' => get_user_meta($user_id, 'shipping_address_1', true),
+            'address_2' => get_user_meta($user_id, 'shipping_address_2', true),
+            'city' => get_user_meta($user_id, 'shipping_city', true),
+            'state' => get_user_meta($user_id, 'shipping_state', true),
+            'postcode' => get_user_meta($user_id, 'shipping_postcode', true),
+            'country' => get_user_meta($user_id, 'shipping_country', true),
+            'phone' => get_user_meta($user_id, 'shipping_phone', true),
+            'building_type' => get_user_meta($user_id, 'shipping_building_type', true),
+            'is_default' => true,
+            'default_type' => 'shipping',
+            'address_title' => 'Default Shipping Address'
+        );
+        
+        // Check if shipping address has any content and is different from billing
+        $has_shipping_content = !empty($shipping_data['address_1']) || !empty($shipping_data['city']) || !empty($shipping_data['postcode']);
+        $is_different_from_billing = ($shipping_data['address_1'] !== $billing_data['address_1']) || 
+                                   ($shipping_data['city'] !== $billing_data['city']) || 
+                                   ($shipping_data['postcode'] !== $billing_data['postcode']);
+        
+        if ($has_shipping_content && $is_different_from_billing) {
+            $formatted_shipping = nxt_format_default_address($shipping_data);
+            $addresses['shipping'] = array_merge($shipping_data, array(
+                'formatted' => $formatted_shipping
+            ));
+        }
+    }
+    
+    // Get custom addresses (numbered separately)
+    $custom_addresses = get_user_meta($user_id, 'nxt_custom_addresses', true);
+    if (is_array($custom_addresses)) {
+        $custom_counter = 1;
+        foreach ($custom_addresses as $custom_id) {
+            $address_data = get_user_meta($user_id, 'nxt_custom_address_' . $custom_id, true);
+            if ($address_data && is_array($address_data)) {
+                $formatted_address = nxt_format_custom_address($address_data);
+                $addresses['custom_' . $custom_counter] = array_merge($address_data, array(
+                    'formatted' => $formatted_address,
+                    'is_default' => false,
+                    'custom_id' => $custom_id,
+                    'address_title' => 'Address ' . $custom_counter
+                ));
+                $custom_counter++;
+            }
+        }
+    }
+    
+    return $addresses;
+}
+
+/**
+ * Format custom address data
+ */
+function nxt_format_custom_address($address_data) {
+    $formatted = array();
+    
+    // Skip first name and last name as they are displayed separately in the recipient field
+    
+    if (!empty($address_data['company'])) {
+        $formatted[] = $address_data['company'];
+    }
+    
+    if (!empty($address_data['address_1'])) {
+        $formatted[] = $address_data['address_1'];
+    }
+    
+    if (!empty($address_data['address_2'])) {
+        $formatted[] = $address_data['address_2'];
+    }
+    
+    $city_state_zip = array();
+    if (!empty($address_data['city'])) {
+        $city_state_zip[] = $address_data['city'];
+    }
+    if (!empty($address_data['state'])) {
+        $city_state_zip[] = $address_data['state'];
+    }
+    if (!empty($address_data['postcode'])) {
+        $city_state_zip[] = $address_data['postcode'];
+    }
+    if (!empty($city_state_zip)) {
+        $formatted[] = implode(', ', $city_state_zip);
+    }
+    
+    if (!empty($address_data['country'])) {
+        $countries = WC()->countries->get_countries();
+        $country_name = isset($countries[$address_data['country']]) ? $countries[$address_data['country']] : $address_data['country'];
+        $formatted[] = $country_name;
+    }
+    
+    return implode('<br>', $formatted);
+}
+
+/**
+ * Format default WooCommerce address data without name
+ */
+function nxt_format_default_address($address_data) {
+    $formatted = array();
+    
+    // Skip first name and last name as they are displayed separately in the recipient field
+    
+    if (!empty($address_data['company'])) {
+        $formatted[] = $address_data['company'];
+    }
+    
+    if (!empty($address_data['address_1'])) {
+        $formatted[] = $address_data['address_1'];
+    }
+    
+    if (!empty($address_data['address_2'])) {
+        $formatted[] = $address_data['address_2'];
+    }
+    
+    $city_state_zip = array();
+    if (!empty($address_data['city'])) {
+        $city_state_zip[] = $address_data['city'];
+    }
+    if (!empty($address_data['state'])) {
+        $city_state_zip[] = $address_data['state'];
+    }
+    if (!empty($address_data['postcode'])) {
+        $city_state_zip[] = $address_data['postcode'];
+    }
+    if (!empty($city_state_zip)) {
+        $formatted[] = implode(', ', $city_state_zip);
+    }
+    
+    if (!empty($address_data['country'])) {
+        $countries = WC()->countries->get_countries();
+        $country_name = isset($countries[$address_data['country']]) ? $countries[$address_data['country']] : $address_data['country'];
+        $formatted[] = $country_name;
+    }
+    
+    return implode('<br>', $formatted);
+}
+
+/**
+ * Handle AJAX set default address request
+ */
+add_action('wp_ajax_nxt_set_default_address', 'nxt_handle_set_default_address');
+add_action('wp_ajax_nopriv_nxt_set_default_address', 'nxt_handle_set_default_address');
+function nxt_handle_set_default_address() {
+    // Verify nonce
+    if (!wp_verify_nonce($_POST['nonce'], 'nxt_set_default_address')) {
+        wp_die('Security check failed');
+    }
+    
+    // Check if user is logged in
+    if (!is_user_logged_in()) {
+        wp_send_json_error('User not logged in');
+    }
+    
+    $user_id = get_current_user_id();
+    $address_id = sanitize_text_field($_POST['address_id']);
+    $address_type = sanitize_text_field($_POST['address_type']); // 'billing' or 'shipping'
+    
+    // Validate address type
+    if (!in_array($address_type, array('billing', 'shipping'))) {
+        wp_send_json_error('Invalid address type');
+    }
+    
+    // Get custom address data
+    $address_data = get_user_meta($user_id, 'nxt_custom_address_' . $address_id, true);
+    if (!$address_data || !is_array($address_data)) {
+        wp_send_json_error('Address not found');
+    }
+    
+    // Update WooCommerce default address fields
+    $address_fields = array(
+        'first_name', 'last_name', 'company', 'address_1', 'address_2',
+        'city', 'state', 'postcode', 'country', 'phone', 'building_type'
+    );
+    
+    foreach ($address_fields as $field) {
+        if (isset($address_data[$field])) {
+            update_user_meta($user_id, $address_type . '_' . $field, $address_data[$field]);
+        }
+    }
+    
+    wp_send_json_success('Default ' . $address_type . ' address updated successfully');
+}
+
+/**
+ * Handle AJAX delete default address request
+ */
+add_action('wp_ajax_nxt_delete_default_address', 'nxt_handle_delete_default_address');
+add_action('wp_ajax_nopriv_nxt_delete_default_address', 'nxt_handle_delete_default_address');
+function nxt_handle_delete_default_address() {
+    // Verify nonce
+    if (!wp_verify_nonce($_POST['nonce'], 'nxt_delete_default_address')) {
+        wp_die('Security check failed');
+    }
+    
+    // Check if user is logged in
+    if (!is_user_logged_in()) {
+        wp_send_json_error('User not logged in');
+    }
+    
+    $user_id = get_current_user_id();
+    $address_type = sanitize_text_field($_POST['address_type']); // 'billing' or 'shipping'
+    
+    // Validate address type
+    if (!in_array($address_type, array('billing', 'shipping'))) {
+        wp_send_json_error('Invalid address type');
+    }
+    
+    // Delete default WooCommerce address fields
+    $address_fields = array(
+        'first_name', 'last_name', 'company', 'address_1', 'address_2',
+        'city', 'state', 'postcode', 'country', 'phone', 'building_type'
+    );
+    
+    foreach ($address_fields as $field) {
+        delete_user_meta($user_id, $address_type . '_' . $field);
+    }
+    
+    wp_send_json_success('Default ' . $address_type . ' address deleted successfully');
+}
+
+/**
+ * Add building type field to WooCommerce address forms
+ */
+add_filter('woocommerce_default_address_fields', 'nxt_add_building_type_field');
+function nxt_add_building_type_field($fields) {
+    $fields['building_type'] = array(
+        'label' => __('Building Type', 'hello-elementor-child'),
+        'required' => false,
+        'type' => 'select',
+        'options' => array(
+            'house' => __('House', 'hello-elementor-child'),
+            'apartment' => __('Apartment', 'hello-elementor-child'),
+            'office' => __('Office', 'hello-elementor-child'),
+            'other' => __('Other', 'hello-elementor-child'),
+        ),
+        'priority' => 25,
+    );
+    
+    return $fields;
+}
+
+/**
+ * Save building type field
+ */
+add_action('woocommerce_customer_save_address', 'nxt_save_building_type_field', 10, 2);
+function nxt_save_building_type_field($user_id, $load_address) {
+    if (isset($_POST[$load_address . '_building_type'])) {
+        update_user_meta($user_id, $load_address . '_building_type', sanitize_text_field($_POST[$load_address . '_building_type']));
+    }
+}
+
+// ========================================
+// ACCOUNT FORM HANDLING FUNCTIONS
+// ========================================
+
+/**
+ * Get country phone codes dynamically from WooCommerce
+ */
+function nxt_get_country_phone_codes() {
+    // Get WooCommerce countries
+    $countries = WC()->countries->get_countries();
+    
+    // Common country phone codes mapping
+    $phone_codes = array(
+        'US' => '+1', 'CA' => '+1', 'GB' => '+44', 'FR' => '+33', 'DE' => '+49',
+        'IT' => '+39', 'ES' => '+34', 'NL' => '+31', 'BE' => '+32', 'CH' => '+41',
+        'AT' => '+43', 'DK' => '+45', 'SE' => '+46', 'NO' => '+47', 'FI' => '+358',
+        'PT' => '+351', 'GR' => '+30', 'TR' => '+90', 'RU' => '+7', 'CN' => '+86',
+        'JP' => '+81', 'KR' => '+82', 'IN' => '+91', 'AU' => '+61', 'NZ' => '+64',
+        'BR' => '+55', 'MX' => '+52', 'AR' => '+54', 'CL' => '+56', 'CO' => '+57',
+        'VE' => '+58', 'PE' => '+51', 'EC' => '+593', 'PY' => '+595', 'UY' => '+598',
+        'GY' => '+592', 'SR' => '+597', 'GF' => '+594', 'MQ' => '+596', 'GP' => '+590',
+        'PM' => '+508', 'HT' => '+509', 'BS' => '+1-242', 'BB' => '+1-246', 'AI' => '+1-264',
+        'AG' => '+1-268', 'VG' => '+1-284', 'VI' => '+1-340', 'KY' => '+1-345', 'BM' => '+1-441',
+        'GD' => '+1-473', 'TC' => '+1-649', 'MS' => '+1-664', 'MP' => '+1-670', 'GU' => '+1-671',
+        'AS' => '+1-684', 'SX' => '+1-721', 'LC' => '+1-758', 'DM' => '+1-767', 'VC' => '+1-784',
+        'PR' => '+1-787', 'DO' => '+1-809', 'TT' => '+1-868', 'KN' => '+1-869', 'JM' => '+1-876'
+    );
+    
+    $result = array();
+    foreach ($countries as $country_code => $country_name) {
+        if (isset($phone_codes[$country_code])) {
+            $result[$phone_codes[$country_code]] = $country_name;
+        }
+    }
+    
+    return $result;
+}
+
+/**
+ * Override WordPress default avatar with custom avatar
+ */
+add_filter('get_avatar', 'nxt_custom_avatar_filter', 10, 5);
+function nxt_custom_avatar_filter($avatar, $id_or_email, $size, $default, $alt) {
+    $user = false;
+
+    if (is_numeric($id_or_email)) {
+        $user = get_user_by('id', (int) $id_or_email);
+    } elseif (is_object($id_or_email)) {
+        if (!empty($id_or_email->user_id)) {
+            $user = get_user_by('id', (int) $id_or_email->user_id);
+        }
+    } else {
+        $user = get_user_by('email', $id_or_email);
+    }
+
+    if ($user && is_object($user)) {
+        $custom_avatar_id = get_user_meta($user->ID, 'user_avatar', true);
+        if ($custom_avatar_id) {
+            $custom_avatar_url = wp_get_attachment_image_url($custom_avatar_id, array($size, $size));
+            if ($custom_avatar_url) {
+                $avatar = '<img src="' . esc_url($custom_avatar_url) . '" alt="' . esc_attr($alt) . '" width="' . (int) $size . '" height="' . (int) $size . '" class="avatar avatar-' . (int) $size . ' photo" />';
+            }
+        }
+    }
+
+    return $avatar;
+}
+
+/**
+ * Simple AJAX avatar upload
+ */
+add_action('wp_ajax_nxt_upload_avatar', 'nxt_handle_avatar_upload');
+function nxt_handle_avatar_upload() {
+    // Verify nonce
+    if (!wp_verify_nonce($_POST['nonce'], 'nxt_upload_avatar')) {
+        wp_die('Security check failed');
+    }
+    
+    // Check if user is logged in
+    if (!is_user_logged_in()) {
+        wp_send_json_error('User not logged in');
+    }
+    
+    $user_id = get_current_user_id();
+    
+    // Check if file was uploaded
+    if (!isset($_FILES['avatar']) || $_FILES['avatar']['error'] !== UPLOAD_ERR_OK) {
+        wp_send_json_error('No file uploaded or upload error');
+    }
+    
+    $file = $_FILES['avatar'];
+    
+    // Validate file type
+    $allowed_types = array('image/jpeg', 'image/png', 'image/gif', 'image/webp');
+    if (!in_array($file['type'], $allowed_types)) {
+        wp_send_json_error('Invalid file type. Only JPEG, PNG, GIF, and WebP images are allowed.');
+    }
+    
+    // Validate file size (max 2MB)
+    if ($file['size'] > 2 * 1024 * 1024) {
+        wp_send_json_error('File size must be less than 2MB.');
+    }
+    
+    // Include WordPress file handling functions
+    require_once(ABSPATH . 'wp-admin/includes/file.php');
+    require_once(ABSPATH . 'wp-admin/includes/media.php');
+    require_once(ABSPATH . 'wp-admin/includes/image.php');
+    
+    // Upload file
+    $upload = wp_handle_upload($file, array('test_form' => false));
+    
+    if (isset($upload['error'])) {
+        wp_send_json_error('Upload error: ' . $upload['error']);
+    }
+    
+    // Create attachment
+    $attachment = array(
+        'post_mime_type' => $upload['type'],
+        'post_title' => 'Avatar - User ' . $user_id,
+        'post_content' => '',
+        'post_status' => 'inherit'
+    );
+    
+    $attachment_id = wp_insert_attachment($attachment, $upload['file']);
+    
+    if (is_wp_error($attachment_id)) {
+        wp_send_json_error('Failed to create attachment');
+    }
+    
+    // Generate attachment metadata
+    $attachment_data = wp_generate_attachment_metadata($attachment_id, $upload['file']);
+    wp_update_attachment_metadata($attachment_id, $attachment_data);
+    
+    // Save attachment ID to user meta
+    update_user_meta($user_id, 'user_avatar', $attachment_id);
+    
+    // Get image URL
+    $image_url = wp_get_attachment_image_url($attachment_id, 'thumbnail');
+    
+    wp_send_json_success(array(
+        'attachment_id' => $attachment_id,
+        'url' => $image_url
+    ));
+}
+
+/**
+ * Handle account form submission
+ */
+add_action('init', 'nxt_handle_account_form_submission');
+function nxt_handle_account_form_submission() {
+    if (!is_user_logged_in() || !isset($_POST['save_account_details'])) {
+        return;
+    }
+    
+    // Verify nonce
+    if (!wp_verify_nonce($_POST['save-account-details-nonce'], 'save_account_details')) {
+        wp_die('Security check failed');
+    }
+    
+    $user_id = get_current_user_id();
+    $errors = array();
+    
+    // Validate required fields
+    if (empty($_POST['account_first_name'])) {
+        $errors[] = 'First name is required.';
+    }
+    
+    if (empty($_POST['account_last_name'])) {
+        $errors[] = 'Last name is required.';
+    }
+    
+    if (empty($_POST['account_display_name'])) {
+        $errors[] = 'Display name is required.';
+    }
+    
+    if (empty($_POST['billing_country'])) {
+        $errors[] = 'Country is required.';
+    }
+    
+    if (empty($_POST['billing_phone'])) {
+        $errors[] = 'Phone number is required.';
+    }
+    
+    // If there are errors, display them
+    if (!empty($errors)) {
+        foreach ($errors as $error) {
+            wc_add_notice($error, 'error');
+        }
+        return;
+    }
+    
+    // Update user data
+    $user_data = array(
+        'ID' => $user_id,
+        'first_name' => sanitize_text_field($_POST['account_first_name']),
+        'last_name' => sanitize_text_field($_POST['account_last_name']),
+        'display_name' => sanitize_text_field($_POST['account_display_name'])
+    );
+    
+    wp_update_user($user_data);
+    
+    // Update billing information
+    update_user_meta($user_id, 'billing_country', sanitize_text_field($_POST['billing_country']));
+    update_user_meta($user_id, 'billing_phone', sanitize_text_field($_POST['billing_phone']));
+    update_user_meta($user_id, 'billing_phone_country_code', sanitize_text_field($_POST['billing_phone_country_code']));
+    
+    
+    // Add success notice
+    wc_add_notice('Account details updated successfully.', 'success');
+    
+    // Redirect to prevent form resubmission
+    wp_redirect(wc_get_account_endpoint_url('edit-account'));
+    exit;
+}
+
+/**
+ * Handle password change form submission
+ */
+add_action('init', 'nxt_handle_password_change_submission');
+function nxt_handle_password_change_submission() {
+    if (!is_user_logged_in() || !isset($_POST['change_password'])) {
+        return;
+    }
+    
+    // Verify nonce
+    if (!wp_verify_nonce($_POST['change-password-nonce'], 'change_password')) {
+        wp_die('Security check failed');
+    }
+    
+    $user_id = get_current_user_id();
+    $user = get_user_by('id', $user_id);
+    
+    $current_password = $_POST['password_current'];
+    $new_password = $_POST['password_1'];
+    $confirm_password = $_POST['password_2'];
+    
+    $errors = array();
+    
+    // Validate current password
+    if (!empty($current_password)) {
+        if (!wp_check_password($current_password, $user->user_pass, $user_id)) {
+            $errors[] = 'Current password is incorrect.';
+        }
+    } else {
+        $errors[] = 'Current password is required.';
+    }
+    
+    // Validate new password
+    if (empty($new_password)) {
+        $errors[] = 'New password is required.';
+    } elseif (strlen($new_password) < 8) {
+        $errors[] = 'New password must be at least 8 characters long.';
+    }
+    
+    // Validate password confirmation
+    if ($new_password !== $confirm_password) {
+        $errors[] = 'New password and confirmation do not match.';
+    }
+    
+    // If there are errors, display them
+    if (!empty($errors)) {
+        foreach ($errors as $error) {
+            wc_add_notice($error, 'error');
+        }
+        return;
+    }
+    
+    // Update password
+    wp_set_password($new_password, $user_id);
+    
+    // Add success notice
+    wc_add_notice('Password changed successfully.', 'success');
+    
+    // Redirect to prevent form resubmission
+    wp_redirect(wc_get_account_endpoint_url('edit-account'));
+    exit;
 }
 

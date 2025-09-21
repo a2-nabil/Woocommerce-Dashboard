@@ -6,6 +6,10 @@ document.addEventListener('DOMContentLoaded', function() {
             slidesPerView: 1,
             spaceBetween: 20,
             loop: true,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+            },
             navigation: {
                 nextEl: '.nxt-carousel-next',
                 prevEl: '.nxt-carousel-prev',
